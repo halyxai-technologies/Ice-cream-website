@@ -166,14 +166,16 @@ export function FlavorChapter({ flavor: f, first }: { flavor: Flavor; first?: bo
         .to(".ch-rail-fill", { scaleX: 1 / 3, duration: 2.4 }, 0)
 
         // ACT II — what goes in
-        .to(".ch-flat", { clipPath: revTo, duration: 1.4, ease: "power2.inOut" }, 2)
+        // fromTo with explicit strings: Chrome normalises clip-path when read back
+        // (e.g. "inset(50% 50% 50% 50%)" -> "inset(50%)"), which breaks number-by-number tweening
+        .fromTo(".ch-flat", { clipPath: revFrom }, { clipPath: revTo, duration: 1.6, ease: "power2.inOut" }, 2)
         .fromTo(".ch-flat img", { scale: 1.35, rotate: -4 }, { scale: 1, rotate: 0, duration: 2.6 }, 2)
         .to(".ch-b > *", { opacity: 1, y: 0, stagger: 0.12, duration: 0.6, ease: "power2.out" }, 3.1)
         .to(".ch-rail-fill", { scaleX: 2 / 3, duration: 2.6 }, 2.4)
         .to(".ch-b > *", { opacity: 0, y: -40, stagger: 0.06, duration: 0.5, ease: "power2.in" }, 4.7)
 
         // ACT III — the cup, scrubbed frame by frame
-        .to(".ch-film", { clipPath: FILM_TO, duration: 1.2, ease: "power2.inOut" }, 5)
+        .fromTo(".ch-film", { clipPath: FILM_FROM }, { clipPath: FILM_TO, duration: 1.3, ease: "power2.inOut" }, 5)
         .fromTo(".ch-film canvas", { scale: 1.2 }, { scale: 1, duration: 1.6, ease: "power2.out" }, 5)
         .to(".ch-c-item", { opacity: 1, y: 0, stagger: 0.08, duration: 0.6, ease: "power2.out" }, 5.8)
         .to(
